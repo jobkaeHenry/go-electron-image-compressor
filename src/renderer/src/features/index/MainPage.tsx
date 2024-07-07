@@ -21,7 +21,8 @@ const MainPage = (): ReactElement => {
   useTitle('Stunning | Webp 컨버터');
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [imageUrl, setImageUrl] = useState('');
+  const [dataUrl, setDataUrl] = useState('');
+  const [fileName, setFileName] = useState('');
 
   const [status, setStatus] = useState<
     'standby' | 'pending' | 'reject' | 'resolve'
@@ -30,19 +31,21 @@ const MainPage = (): ReactElement => {
   const downloadHandler = (url: string): void => {
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'banana_bread.webp';
+    a.download = fileName
+      ? `${fileName.split('.')[0]}.webp`
+      : 'banana_bread.webp';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   };
 
-  const bufferToImageUrl = (buff: Buffer): string => {
+  const bufferTodataUrl = (buff: Buffer): string => {
     const base64String = buff.toString('base64');
-    const imageUrl = `data:image/webp;base64,${base64String}`;
-    return imageUrl;
+    const dataUrl = `data:image/webp;base64,${base64String}`;
+    return dataUrl;
   };
 
-  const changeHandler = async (file?: File): Promise<void> => {
+  const convertFileHandler = async (file?: File): Promise<void> => {
     if (!file) {
       return;
     }
@@ -51,9 +54,9 @@ const MainPage = (): ReactElement => {
 
     try {
       const imageBuffer = await window.api.convertImage(path);
-      // imageUrl (화면 표출용)
-      const imageUrl = bufferToImageUrl(imageBuffer);
-      setImageUrl(imageUrl);
+      // dataUrl (화면 표출용)
+      const dataUrl = bufferTodataUrl(imageBuffer);
+      setDataUrl(dataUrl);
       // resolve
       setStatus('resolve');
     } catch {
@@ -62,14 +65,14 @@ const MainPage = (): ReactElement => {
   };
 
   const ButtonProps: ButtonProps = {
-    disabled: !imageUrl || status === 'pending',
+    disabled: !dataUrl || status === 'pending',
     startIcon:
       status === 'pending' ? (
         <CircularProgress size={20} />
       ) : (
         <FileDownloadIcon />
       ),
-    onClick: () => downloadHandler(imageUrl),
+    onClick: () => downloadHandler(dataUrl),
     children: ButtonNameMap[status],
   };
 
@@ -88,11 +91,13 @@ const MainPage = (): ReactElement => {
           </Typography>
           <ImageInput
             width={'100%'}
-            dataUrl={imageUrl}
+            dataUrl={dataUrl}
             height={{ xs: '300px', md: '400px' }}
             inputProps={{ disabled: status === 'pending' }}
-            onFileChange={async (file) => {
-              await changeHandler(file);
+            onFileChange={(file) => {
+              if (!file) return;
+              setFileName(file.name);
+              convertFileHandler(file);
             }}
           />
         </Stack>
