@@ -31,7 +31,7 @@ export const ImageInput = ({
       height={height}
       sx={{
         transitionDuration: '200ms',
-        cursor: inputProps?.disabled ? 'progress' : 'pointer',
+        cursor: inputProps?.disabled ? 'default' : 'pointer',
         opacity: inputProps?.disabled ? '0.6' : '1',
       }}
     >
