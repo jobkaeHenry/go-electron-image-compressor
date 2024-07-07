@@ -1,9 +1,9 @@
 {
-  "name": "electron-image-compressor",
+  "name": "electron-image-converter",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "image converter electron application ",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "jobkaehenry",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",

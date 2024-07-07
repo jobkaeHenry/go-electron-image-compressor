@@ -1,8 +1,18 @@
 import { contextBridge } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
+import { ipcRenderer } from 'electron/renderer';
 
 // Custom APIs for renderer
-const api = {};
+const api = {
+  convertImage: async (filePath: string): Promise<Buffer> => {
+    const uInt8Array = (await ipcRenderer.invoke(
+      'convert-image',
+      filePath
+    )) as WithImplicitCoercion<Uint8Array>;
+    const imgBuffer = Buffer.from(uInt8Array);
+    return imgBuffer;
+  },
+};
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

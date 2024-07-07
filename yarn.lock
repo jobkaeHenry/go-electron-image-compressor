@@ -2660,9 +2660,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-image-compressor@workspace:.":
+"electron-image-converter@workspace:.":
   version: 0.0.0-use.local
-  resolution: "electron-image-compressor@workspace:."
+  resolution: "electron-image-converter@workspace:."
   dependencies:
     "@electron-toolkit/eslint-config-prettier": "npm:^2.0.0"
     "@electron-toolkit/eslint-config-ts": "npm:^2.0.0"

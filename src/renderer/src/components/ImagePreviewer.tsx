@@ -12,13 +12,11 @@ const ImagePreviewer = forwardRef(
         sx={{
           backgroundImage: `url(${fileUrl})`,
           width: '100%',
-          borderRadius: 4,
           border: '1px solid',
-          borderColor: 'gray.secondary',
+          borderColor: 'primary.main',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
           backgroundPosition: 'center',
-          aspectRatio: 2.36,
           ...sx,
         }}
         ref={ref}

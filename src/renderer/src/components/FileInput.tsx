@@ -1,18 +1,20 @@
-import { Box, BoxProps, Stack } from '@mui/material';
+import { Box, BoxProps, Stack, Typography } from '@mui/material';
 import { InputHTMLAttributes, useState, useEffect, ReactElement } from 'react';
 import useRenderAsDataUrl from '@renderer/hooks/useRenderAsDataUrl';
-import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
-
+import ImagePreviewer from '@renderer/components/ImagePreviewer';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 interface ImageInputInterface extends BoxProps {
   onFileChange: (file?: File) => void;
-  initialImage?: string;
+  dataUrl?: string | ArrayBuffer | null;
+  inputProps?: Omit<SingleImageInputInterface, 'onChange'>;
 }
 
 export const ImageInput = ({
   onFileChange,
-  initialImage,
+  dataUrl,
   width = 100,
   height = 100,
+  inputProps,
 }: ImageInputInterface): ReactElement => {
   const [file, setFile] = useState<File>();
 
@@ -20,36 +22,45 @@ export const ImageInput = ({
     onFileChange(file);
   }, [file]);
 
-  const fileUrl = useRenderAsDataUrl(file) ?? initialImage;
+  const fileUrl = dataUrl ?? useRenderAsDataUrl(file);
+
   return (
-    <Box component={'label'} width={width} height={height}>
+    <Box
+      component={'label'}
+      width={width}
+      height={height}
+      sx={{
+        transitionDuration: '200ms',
+        cursor: inputProps?.disabled ? 'progress' : 'pointer',
+        opacity: inputProps?.disabled ? '0.6' : '1',
+      }}
+    >
       {fileUrl ? (
-        <Box
-          sx={{ backgroundImage: `url(${fileUrl})`, backgroundSize: 'contain' }}
-          width={width}
-          height={height}
-        />
+        <ImagePreviewer sx={{ width, height }} fileUrl={fileUrl} />
       ) : (
         <Stack
           width={width}
           height={height}
+          gap={1}
           sx={{
-            bgcolor: 'grey.50',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'grey.400',
+            color: 'grey.600',
             border: '1px solid',
-            borderColor: 'grey.400',
-            borderRadius: '8px',
+            borderColor: 'primary.main',
           }}
         >
-          <PhotoSizeSelectActualOutlinedIcon />
+          <UploadFileIcon />
+          <Typography variant="label">
+            JPG / PNG / GIF 파일을 업로드 해주세요
+          </Typography>
         </Stack>
       )}
       <SingleImageInput
         onChange={(file) => {
           setFile(file);
         }}
+        {...inputProps}
       />
     </Box>
   );
