@@ -70,6 +70,7 @@ const MainPage = (): ReactElement => {
         <FileDownloadIcon />
       ),
     onClick: () => downloadHandler(imageUrl),
+    children: ButtonNameMap[status],
   };
 
   return (
@@ -99,14 +100,19 @@ const MainPage = (): ReactElement => {
 
       <MainPageBottomLogo />
       {isSmallScreen ? (
-        <FixedBottomCTA {...ButtonProps}>다운로드</FixedBottomCTA>
+        <FixedBottomCTA {...ButtonProps} />
       ) : (
-        <Button {...ButtonProps} fullWidth size="large">
-          다운로드
-        </Button>
+        <Button {...ButtonProps} fullWidth size="large" />
       )}
     </Container>
   );
 };
 
 export default MainPage;
+
+const ButtonNameMap = {
+  standby: '파일을 선택해주세요',
+  pending: '변환중',
+  reject: '다운로드',
+  resolve: '다운로드',
+};
