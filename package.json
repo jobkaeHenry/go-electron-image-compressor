@@ -1,5 +1,5 @@
 {
-  "name": "electron-image-converter",
+  "name": "banana-bread",
   "version": "1.0.0",
   "description": "image converter electron application ",
   "main": "./out/main/index.js",
