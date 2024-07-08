@@ -1,5 +1,5 @@
 import { spawn } from 'child_process';
-import golangBinary from '../../../../resources/image-converter.exe?asset&asarUnpack';
+import golangBinary from '../../../../resources/mac-image-converter?asset&asarUnpack';
 
 const convertImage = async (filePath: string): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
