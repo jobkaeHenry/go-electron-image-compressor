@@ -1,2 +1,7 @@
 github.com/chai2010/webp v1.1.1 h1:jTRmEccAJ4MGrhFOrPMpNGIJ/eybIgwKpcACsrTEapk=
 github.com/chai2010/webp v1.1.1/go.mod h1:0XVwvZWdjjdxpUEIf7b9g9VkHFnInUSYujwqTLEuldU=
+github.com/sizeofint/gif-to-webp v0.0.0-20210224202734-e9d7ed071591 h1:dCWBD4Xchp/XFIR/x6D2l74DtQHvIpHsmpPRHgH9oUo=
+github.com/sizeofint/gif-to-webp v0.0.0-20210224202734-e9d7ed071591/go.mod h1:IXC7KN2FEuTEISdePm37qcFyXInAh6pfW35yDjbdfOM=
+github.com/sizeofint/webp-animation v0.0.0-20190207194838-b631dc900de9/go.mod h1:/NQ8ciRuH+vxYhrFlnX70gvXBugMYQbBygCRocFgSZ4=
+github.com/sizeofint/webp-animation v0.0.0-20210101174216-bdb4d77c39ea h1:bPX0eLob10xLIkZ7iU1sbB0cTRG7SMxfqs8N51x3RIU=
+github.com/sizeofint/webp-animation v0.0.0-20210101174216-bdb4d77c39ea/go.mod h1:/NQ8ciRuH+vxYhrFlnX70gvXBugMYQbBygCRocFgSZ4=

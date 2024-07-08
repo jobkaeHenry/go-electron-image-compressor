@@ -2,15 +2,9 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
-	"image"
-	_ "image/gif"
-	_ "image/jpeg"
 	_ "image/png"
 	"os"
-
-	"github.com/chai2010/webp"
 )
 
 func main() {
@@ -26,14 +20,9 @@ func main() {
 		fmt.Fprintf(os.Stderr, "파일을 읽지 못했습니다 : %v", err)
 		return
 	}
-	// 이미지 디코드
-	img, _, err := image.Decode(bytes.NewReader(file))
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "파일 디코딩에 실패했습니다 : %v", err)
-		return
-	}
+
 	// webp 로 변환된 buffer
-	buf, err := imgToWebpBuffer(img) // Param : 이미지, 퀄리티 -> 퀄리티는 stdin으로 받는편이 나을 듯
+	buf, err := ImgToWebpBuffer(file) // Param : 이미지, 퀄리티 -> 퀄리티는 stdin으로 받는편이 나을 듯ㅁ
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "파일 변환에 실패했습니다 :%v", err)
 	}
@@ -41,11 +30,4 @@ func main() {
 	if _, err := buf.WriteTo(os.Stdout); err != nil {
 		fmt.Fprintf(os.Stderr, "버퍼 출력에 실패했습니다: %v", err)
 	}
-}
-func imgToWebpBuffer(img image.Image) (bytes.Buffer, error) {
-	var buf bytes.Buffer
-	if err := webp.Encode(&buf, img, &webp.Options{Lossless: true}); err != nil {
-		return buf, err
-	}
-	return buf, nil
 }
