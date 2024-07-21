@@ -13,3 +13,6 @@ out
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# 임시폴더
+**/_temp/*

@@ -1,5 +1,5 @@
 import { spawn } from 'child_process';
-import golangBinary from '../../../../resources/mac-image-converter?asset&asarUnpack';
+import golangBinary from '../../../../resources/mp4ToWebp/mp4ToWebp.exe?asset&asarUnpack';
 
 const convertImage = async (filePath: string): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
