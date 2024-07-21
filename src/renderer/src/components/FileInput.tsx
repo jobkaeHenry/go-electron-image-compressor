@@ -52,7 +52,7 @@ export const ImageInput = ({
         >
           <UploadFileIcon />
           <Typography variant="label">
-            JPG / PNG / GIF 파일을 업로드 해주세요
+            JPG / PNG / GIF / MP4 파일을 업로드 해주세요
           </Typography>
         </Stack>
       )}
@@ -83,7 +83,7 @@ export const SingleImageInput = ({
       name="image"
       style={{ display: 'none' }}
       type="file"
-      accept="image/*"
+      accept="*"
       onChange={(e) => {
         if (e.target.files) {
           onChange(e.target.files[0]);
