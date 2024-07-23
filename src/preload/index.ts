@@ -12,6 +12,15 @@ const api = {
     const imgBuffer = Buffer.from(uInt8Array);
     return imgBuffer;
   },
+
+  convertVideo: async (filePath: string): Promise<Buffer> => {
+    const uInt8Array = (await ipcRenderer.invoke(
+      'convert-video',
+      filePath
+    )) as WithImplicitCoercion<Uint8Array>;
+    const imgBuffer = Buffer.from(uInt8Array);
+    return imgBuffer;
+  },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

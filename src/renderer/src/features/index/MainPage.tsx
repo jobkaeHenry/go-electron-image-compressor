@@ -50,12 +50,18 @@ const MainPage = (): ReactElement => {
       return;
     }
     setStatus('pending');
-    const { path } = file;
+    const { path, type } = file;
 
     try {
-      const imageBuffer = await window.api.convertImage(path);
+      let imageBuffer: Buffer;
+
+      if (type.includes('mp4')) {
+        imageBuffer = await window.api.convertVideo(path);
+      } else imageBuffer = await window.api.convertImage(path);
+
       // dataUrl (화면 표출용)
       const dataUrl = bufferTodataUrl(imageBuffer);
+
       setDataUrl(dataUrl);
       // resolve
       setStatus('resolve');

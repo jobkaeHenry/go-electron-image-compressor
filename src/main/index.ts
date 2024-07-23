@@ -4,7 +4,9 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import winIcon from '../../resources/icon.ico?asset';
 import macIcon from '../../resources/icon.icns?asset';
 import linuxIcon from '../../resources/icon.png?asset';
-import convertImage from '../preload/golang-binary/image-converter/runner';
+import convertImage, {
+  convertVideo,
+} from '../preload/golang-binary/image-converter/runner';
 
 function createWindow(): void {
   let iconPath: string;
@@ -63,6 +65,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle('convert-image', async (_e, path) => {
     const result = await convertImage(path);
+    return result;
+  });
+  ipcMain.handle('convert-video', async (_e, path) => {
+    const result = await convertVideo(path);
     return result;
   });
 
