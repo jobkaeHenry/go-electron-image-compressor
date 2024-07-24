@@ -1,7 +1,6 @@
 import {
   Collapse,
   Divider,
-  Fade,
   FormControlLabel,
   IconButton,
   Modal,

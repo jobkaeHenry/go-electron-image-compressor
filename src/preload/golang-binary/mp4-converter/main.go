@@ -3,8 +3,8 @@ package main
 import (
 	"bufio"
 	"bytes"
+	_ "embed"
 	"fmt"
-	_ "image/png"
 	"log"
 	"math"
 	"os"
@@ -14,28 +14,53 @@ import (
 	"path/filepath"
 )
 
+// 바이너리 파일을 임베드.
+//
+//go:embed ffmpeg
+var ffmpeg []byte
+
+//go:embed img2webp
+var img2webp []byte
+
 func main() {
 	// 스탠다드 인풋으로 이미지 파일의 경로를 입력받음
 	reader := bufio.NewReader(os.Stdin)
 	inputPath, err := reader.ReadString('\n')
-
 	if inputPath == "" {
 		fmt.Fprintf(os.Stderr, "파일경로가 입력되지 않았습니다 : %v", err)
 		return
 	}
-	// 현재 실행 파일의 경로를 가져옴
-	executablePath, err := os.Executable()
-	if err != nil {
-		log.Fatalf("Error getting executable path: %v", err)
-	}
-	executableDir := filepath.Dir(executablePath)
+	// @@@@@@현재 실행 파일의 경로를 가져옴 @@@@@@@ 이부분을 외부로부터 입력받아야함 env가 됬던 뭐가 됬던
+	// executablePath, err := os.UserHomeDir()
+	// if err != nil {
+	// 	log.Fatalf("Error getting executable path: %v", err)
+	// }
+	// executableDir := filepath.Dir(executablePath)
 
-	ffmpegPath := filepath.Join(executableDir, "lib", "ffmpeg.exe")
-	img2webpPath := filepath.Join(executableDir, "lib", "img2webp.exe")
-	// framesDir := filepath.Join(executableDir, "_temp_frames")
-	framesDir := "./_temp_frames"
+	// USER_DATA_DIR 환경 변수로부터 디렉토리 경로를 가져옴
+
+	userDataDir := os.Getenv("USER_DATA_DIR")
+	if userDataDir == "" {
+		log.Fatalf("USER_DATA_DIR 환경 변수가 설정되지 않았습니다")
+	}
+
+	executableDir := filepath.Dir(userDataDir)
+
+	// ffmpeg 및 img2webp 바이너리를 임시 파일로 저장합니다.
+	ffmpegPath := filepath.Join(executableDir, "ffmpeg_temp")
+	if err := os.WriteFile(ffmpegPath, ffmpeg, os.ModePerm); err != nil {
+		log.Fatalf("Error writing ffmpeg binary: %v", err)
+	}
+	defer os.Remove(ffmpegPath)
+
+	img2webpPath := filepath.Join(executableDir, "img2webp_temp")
+	if err := os.WriteFile(img2webpPath, img2webp, os.ModePerm); err != nil {
+		log.Fatalf("Error writing img2webp binary: %v", err)
+	}
+	defer os.Remove(img2webpPath)
+
+	framesDir := filepath.Join(executableDir, "./_t")
 	outputPath := filepath.Join(executableDir, "output2.webp")
-	// outputPath := "./output2.webp"
 
 	frameRate := 30.0
 
@@ -88,8 +113,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error creating animated webp: %v\n%s", err, output)
 	}
-
-	// log.Printf("Animated WebP successfully created at: %s\n", outputPath)
 
 	fileContent, err := os.ReadFile(outputPath)
 	if err != nil {

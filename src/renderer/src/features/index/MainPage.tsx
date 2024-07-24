@@ -65,7 +65,8 @@ const MainPage = (): ReactElement => {
       setDataUrl(dataUrl);
       // resolve
       setStatus('resolve');
-    } catch {
+    } catch (err) {
+      console.log(err);
       setStatus('reject');
     }
   };
