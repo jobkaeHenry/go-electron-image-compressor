@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MainPage from '@renderer/features/index/MainPage';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 const App = (): ReactElement => {
   const [isOpen, setOpen] = useState(false);
@@ -24,10 +24,6 @@ const App = (): ReactElement => {
   const closeModal = (): void => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    setTimeout(() => setOpen(true), 300);
-  }, []);
 
   return (
     <>
@@ -61,7 +57,6 @@ const App = (): ReactElement => {
             <FormControlLabel
               control={
                 <Switch
-                  defaultChecked
                   checked={isAutoConvert}
                   onChange={({ target }) => {
                     setIsAutoConvert(target.checked);
